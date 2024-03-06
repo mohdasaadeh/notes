@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env REQUEST_LOG_FILE=log.txt REQUEST_LOG_FORMAT=common DEBUG=notes:* nodemon ./app.mjs"
+    "start": "cross-env REQUEST_LOG_FILE=logs.txt REQUEST_LOG_FORMAT=common DEBUG=notes:* nodemon ./app.mjs"
   },
   "dependencies": {
     "capture-console": "^1.0.2",

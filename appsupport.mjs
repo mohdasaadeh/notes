@@ -79,3 +79,16 @@ process.on("unhandledRejection", (reason, p) => {
   console.error(`Unhandled Rejection at: ${util.inspect(p)} reason:
 ${reason}`);
 });
+
+const pad = (num) => (num > 9 ? "" : "0") + num;
+
+export const datedFileNameGenerator = (time, index, fileName = "file.log") => {
+  if (!time) return fileName;
+
+  const month = time.getFullYear() + "" + pad(time.getMonth() + 1);
+  const day = pad(time.getDate());
+  const hour = pad(time.getHours());
+  const minute = pad(time.getMinutes());
+
+  return `${month}/${month}${day}-${hour}${minute}-${index}-${fileName}`;
+};

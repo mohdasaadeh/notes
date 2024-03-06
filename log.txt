@@ -1,5 +1,0 @@
-::1 - - [06/Mar/2024:08:00:15 +0000] "GET / HTTP/1.1" 200 288
-::1 - - [06/Mar/2024:08:00:15 +0000] "GET /stylesheets/style.css HTTP/1.1" 304 -
-::1 - - [06/Mar/2024:08:00:15 +0000] "GET /vendor.css.map HTTP/1.1" 404 1412
-::1 - - [06/Mar/2024:08:00:15 +0000] "GET /styles.css.map HTTP/1.1" 404 1412
-::1 - - [06/Mar/2024:08:00:15 +0000] "GET /main.css.map HTTP/1.1" 404 1412

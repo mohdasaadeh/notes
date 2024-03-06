@@ -14,6 +14,7 @@ import {
   onListening,
   handle404,
   basicErrorHandler,
+  datedFileNameGenerator,
 } from "./appsupport.mjs";
 import { router as indexRouter } from "./routes/index.mjs";
 import { router as notesRouter } from "./routes/notes.mjs";
@@ -23,13 +24,16 @@ import { InMemoryNotesStore } from "./models/notes-memory.mjs";
 const __dirname = approotdir;
 
 capcon.startCapture(process.stderr, async (stderr) => {
-  const errorFilePath = path.join(__dirname, "error.txt");
-
-  const stream = rfs.createStream(errorFilePath, {
-    size: "10M",
-    interval: "1d",
-    compress: "gzip",
-  });
+  const stream = rfs.createStream(
+    (time, index) => {
+      return datedFileNameGenerator(time, index, "errors.txt");
+    },
+    {
+      size: "10M",
+      interval: "1d",
+      compress: "gzip",
+    }
+  );
 
   stream.write(new Date() + " - " + stderr);
 });
@@ -45,11 +49,20 @@ hbs.registerPartials(path.join(__dirname, "partials"));
 app.use(
   logger(process.env.REQUEST_LOG_FORMAT || "dev", {
     stream: process.env.REQUEST_LOG_FILE
-      ? rfs.createStream(process.env.REQUEST_LOG_FILE, {
-          size: "10M",
-          interval: "1d",
-          compress: "gzip",
-        })
+      ? rfs.createStream(
+          (time, index) => {
+            return datedFileNameGenerator(
+              time,
+              index,
+              process.env.REQUEST_LOG_FILE
+            );
+          },
+          {
+            size: "10M",
+            interval: "1d",
+            compress: "gzip",
+          }
+        )
       : process.stdout,
   })
 );
