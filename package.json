@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env REQUEST_LOG_FILE=logs.txt REQUEST_LOG_FORMAT=common DEBUG=notes:* nodemon ./app.mjs"
+    "fs-start": "cross-env DEBUG=notes:* PORT=3000 NOTES_MODEL=fs node ./app.mjs",
+    "fs-server1": "cross-env NOTES_MODEL=fs PORT=3001 node ./app.mjs",
+    "fs-server2": "cross-env NOTES_MODEL=fs PORT=3002 node ./app.mjs"
   },
   "dependencies": {
     "capture-console": "^1.0.2",
@@ -11,6 +13,7 @@
     "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "fs-extra": "^11.2.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",

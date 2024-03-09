@@ -19,9 +19,7 @@ import {
 import { router as indexRouter } from "./routes/index.mjs";
 import { router as notesRouter } from "./routes/notes.mjs";
 import { approotdir } from "./approotdir.mjs";
-import { InMemoryNotesStore } from "./models/notes-memory.mjs";
-
-const __dirname = approotdir;
+import { useModel as useNotesModel } from "./models/notes-store.mjs";
 
 capcon.startCapture(process.stderr, async (stderr) => {
   const stream = rfs.createStream(
@@ -38,7 +36,13 @@ capcon.startCapture(process.stderr, async (stderr) => {
   stream.write(new Date() + " - " + stderr);
 });
 
-export const NotesStore = new InMemoryNotesStore();
+useNotesModel(process.env.NOTES_MODEL ? process.env.NOTES_MODEL : "memory")
+  .then((store) => {})
+  .catch((error) => {
+    onError({ code: "ENOTESSTORE", error });
+  });
+
+const __dirname = approotdir;
 
 const app = express();
 

@@ -28,14 +28,17 @@ export function onError(error) {
       console.error(`${bind} requires elevated privileges`);
 
       process.exit(1);
-
-      break;
     case "EADDRINUSE":
       console.error(`${bind} is already in use`);
 
       process.exit(1);
+    case "ENOTESSTORE":
+      console.error(
+        `Notes data store initialization failure because `,
+        error.error
+      );
 
-      break;
+      process.exit(1);
     default:
       throw error;
   }
