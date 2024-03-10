@@ -1,6 +1,7 @@
 import * as util from "util";
 
 import { server } from "./app.mjs";
+import { NotesStore } from "./models/notes-store.mjs";
 
 export function normalizePort(val) {
   const port = parseInt(val, 10);
@@ -95,3 +96,20 @@ export const datedFileNameGenerator = (time, index, fileName = "file.log") => {
 
   return `${month}/${month}${day}-${hour}${minute}-${index}-${fileName}`;
 };
+
+async function catchProcessDeath() {
+  debug("urk...");
+
+  await NotesStore.close();
+
+  await server.close();
+
+  process.exit(0);
+}
+
+process.on("SIGTERM", catchProcessDeath);
+process.on("SIGINT", catchProcessDeath);
+process.on("SIGHUP", catchProcessDeath);
+process.on("exit", () => {
+  debug("exiting...");
+});

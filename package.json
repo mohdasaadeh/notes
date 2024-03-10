@@ -5,7 +5,8 @@
   "scripts": {
     "fs-start": "cross-env DEBUG=notes:* PORT=3000 NOTES_MODEL=fs node ./app.mjs",
     "fs-server1": "cross-env NOTES_MODEL=fs PORT=3001 node ./app.mjs",
-    "fs-server2": "cross-env NOTES_MODEL=fs PORT=3002 node ./app.mjs"
+    "fs-server2": "cross-env NOTES_MODEL=fs PORT=3002 node ./app.mjs",
+    "level-start": "cross-env DEBUG=notes:* PORT=3000 NOTES_MODEL=level node ./app.mjs"
   },
   "dependencies": {
     "capture-console": "^1.0.2",
@@ -16,7 +17,9 @@
     "fs-extra": "^11.2.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "level": "^6.0.1",
     "morgan": "~1.9.1",
-    "rotating-file-stream": "^3.2.1"
+    "rotating-file-stream": "^3.2.1",
+    "sqlite3": "^5.1.7"
   }
 }
