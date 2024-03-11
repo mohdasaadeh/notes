@@ -1,6 +1,5 @@
 <form method='POST' action='/notes/save'>
-<input type='hidden' name='docreate' value='<%=
-docreate ? "create" : "update"%>'>
+<input type='hidden' name='docreate' value='{{#if docreate}}create{{else}}update{{/if}}'>
 <p>Key:
 {{#if docreate }}
 <input type='text' name='notekey' value=''/>
