@@ -10,7 +10,10 @@
     "sqlite3-setup": "sqlite3 notes.sqlite --init ./models/schema-sqlite3.sql",
     "sqlite3-start": "cross-env SQLITE_FILE=notes.sqlite DEBUG=notes:* NOTES_MODEL=sqlite3 node ./app.mjs",
     "sqlite3-server1": "cross-env SQLITE_FILE=notes.sqlite NOTES_MODEL=sqlite3 PORT=3001 node ./app.mjs",
-    "sqlite3-server2": "cross-env SQLITE_FILE=notes.sqlite NOTES_MODEL=sqlite3 PORT=3002 node ./app.mjs"
+    "sqlite3-server2": "cross-env SQLITE_FILE=notes.sqlite NOTES_MODEL=sqlite3 PORT=3002 node ./app.mjs",
+    "sequelize-start": "cross-env DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize node ./app.mjs",
+    "sequelize-server1": "cross-env SEQUELIZE_CONNECT=models/sequelizesqlite.yaml NOTES_MODEL=sequelize PORT=3001 node ./app.mjs",
+    "sequelize-server2": "cross-env SEQUELIZE_CONNECT=models/sequelizesqlite.yaml NOTES_MODEL=sequelize PORT=3002 node ./app.mjs"
   },
   "dependencies": {
     "capture-console": "^1.0.2",
@@ -21,9 +24,11 @@
     "fs-extra": "^11.2.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "js-yaml": "3.13.x",
     "level": "^6.0.1",
     "morgan": "~1.9.1",
     "rotating-file-stream": "^3.2.1",
+    "sequelize": "^6.37.1",
     "sqlite3": "^5.1.7"
   }
 }
