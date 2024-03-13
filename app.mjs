@@ -7,6 +7,8 @@ import { default as cookieParser } from "cookie-parser";
 import * as http from "http";
 import { default as rfs } from "rotating-file-stream";
 import capcon from "capture-console";
+import session from "express-session";
+import sessionFileStore from "session-file-store";
 
 import {
   normalizePort,
@@ -18,8 +20,11 @@ import {
 } from "./appsupport.mjs";
 import { router as indexRouter } from "./routes/index.mjs";
 import { router as notesRouter } from "./routes/notes.mjs";
+import { router as usersRouter, initPassport } from "./routes/users.mjs";
 import { approotdir } from "./approotdir.mjs";
 import { useModel as useNotesModel } from "./models/notes-store.mjs";
+
+export const sessionCookieName = "notescookie.sid";
 
 capcon.startCapture(process.stderr, async (stderr) => {
   const stream = rfs.createStream(
@@ -36,6 +41,8 @@ capcon.startCapture(process.stderr, async (stderr) => {
   stream.write(new Date() + " - " + stderr);
 });
 
+const FileStore = sessionFileStore(session);
+
 useNotesModel(process.env.NOTES_MODEL ? process.env.NOTES_MODEL : "memory")
   .then((store) => {})
   .catch((error) => {
@@ -49,6 +56,18 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 hbs.registerPartials(path.join(__dirname, "partials"));
+
+app.use(
+  session({
+    store: new FileStore({ path: "sessions" }),
+    secret: "keyboard mouse",
+    resave: false,
+    saveUninitialized: false,
+    name: sessionCookieName,
+  })
+);
+
+initPassport(app);
 
 app.use(
   logger(process.env.REQUEST_LOG_FORMAT || "dev", {
@@ -80,6 +99,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/notes", notesRouter);
+app.use("/users", usersRouter);
 
 app.use(handle404);
 app.use(basicErrorHandler);

@@ -1,4 +1,5 @@
 <form method='POST' action='/notes/save'>
+{{#if user}}
 <input type='hidden' name='docreate' value='{{#if docreate}}create{{else}}update{{/if}}'>
 <p>Key:
 {{#if docreate }}
@@ -14,4 +15,7 @@ value='{{#if note }}{{note.title}}{{/if}}' /></p>
 <br/><textarea rows='5' cols='40' name='body'>
 {{#if note }}{{note.body}}{{/if}}</textarea>
 <br/><input type='submit' value='Submit' />
+{{else}}
+{{> not-logged-in }}
+{{/if}}
 </form>
