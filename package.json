@@ -17,6 +17,7 @@
     "sequelize-server2": "cross-env SEQUELIZE_CONNECT=models/sequelizesqlite.yaml NOTES_MODEL=sequelize PORT=3002 node ./app.mjs"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "capture-console": "^1.0.2",
     "cookie-parser": "~1.4.4",
     "cross-env": "^7.0.3",
