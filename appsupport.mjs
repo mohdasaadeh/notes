@@ -98,7 +98,7 @@ export const datedFileNameGenerator = (time, index, fileName = "file.log") => {
 };
 
 async function catchProcessDeath() {
-  debug("urk...");
+  // debug("urk...");
 
   await NotesStore.close();
 
@@ -111,5 +111,5 @@ process.on("SIGTERM", catchProcessDeath);
 process.on("SIGINT", catchProcessDeath);
 process.on("SIGHUP", catchProcessDeath);
 process.on("exit", () => {
-  debug("exiting...");
+  // debug("exiting...");
 });

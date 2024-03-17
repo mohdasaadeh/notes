@@ -1,0 +1,21 @@
+Sun Mar 17 2024 00:32:39 GMT+0300 (Arabian Standard Time) - I've crashed!!! - TypeError: store.on is not a function
+    at session (C:\Users\MSII5\Desktop\training\node\notey\notey-notes\node_modules\express-session\index.js:172:9)
+    at file:///C:/Users/MSII5/Desktop/training/node/notey/notey-notes/app.mjs:89:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:329:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:113:12)
+Sun Mar 17 2024 00:33:54 GMT+0300 (Arabian Standard Time) - I've crashed!!! - TypeError: store.on is not a function
+    at session (C:\Users\MSII5\Desktop\training\node\notey\notey-notes\node_modules\express-session\index.js:172:9)
+    at file:///C:/Users/MSII5/Desktop/training/node/notey/notey-notes/app.mjs:89:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:329:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:113:12)
+Sun Mar 17 2024 00:36:03 GMT+0300 (Arabian Standard Time) - I've crashed!!! - TypeError: store.on is not a function
+    at session (C:\Users\MSII5\Desktop\training\node\notey\notey-notes\node_modules\express-session\index.js:172:9)
+    at file:///C:/Users/MSII5/Desktop/training/node/notey/notey-notes/app.mjs:89:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:329:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:113:12)

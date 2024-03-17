@@ -20,11 +20,13 @@ import {
   basicErrorHandler,
   datedFileNameGenerator,
 } from "./appsupport.mjs";
-import { router as indexRouter } from "./routes/index.mjs";
-import { router as notesRouter } from "./routes/notes.mjs";
+import { router as indexRouter, init as indexInit } from "./routes/index.mjs";
+import { router as notesRouter, init as notesInit } from "./routes/notes.mjs";
 import { router as usersRouter, initPassport } from "./routes/users.mjs";
 import { approotdir } from "./approotdir.mjs";
 import { useModel as useNotesModel } from "./models/notes-store.mjs";
+
+const FileStore = sessionFileStore(session);
 
 export const sessionCookieName = "notescookie.sid";
 const sessionSecret = "keyboard mouse";
@@ -45,10 +47,11 @@ capcon.startCapture(process.stderr, async (stderr) => {
   stream.write(new Date() + " - " + stderr);
 });
 
-const FileStore = sessionFileStore(session);
-
 useNotesModel(process.env.NOTES_MODEL ? process.env.NOTES_MODEL : "memory")
-  .then((store) => {})
+  .then((store) => {
+    indexInit();
+    notesInit();
+  })
   .catch((error) => {
     onError({ code: "ENOTESSTORE", error });
   });
@@ -84,7 +87,7 @@ hbs.registerPartials(path.join(__dirname, "partials"));
 
 app.use(
   session({
-    store: sessionFileStore,
+    store: sessionStore,
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
