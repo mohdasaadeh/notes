@@ -31,7 +31,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-const emitNoteTitles = async () => {
+export const emitNoteTitles = async () => {
   const notelist = await getKeyTitlesList();
 
   io.of("/home").emit("notetitles", { notelist });

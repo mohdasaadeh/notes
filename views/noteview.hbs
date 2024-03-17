@@ -1,9 +1,11 @@
-{{#if note}}<h3>{{note.title}}</h3>{{/if}}
-{{#if note}}<p>{{note.body}}</p>{{/if}}
+{{#if note}}<h3 id="note-title">{{note.title}}</h3>{{/if}}
+{{#if note}}<p id="note-body">{{note.body}}</p>{{/if}}
 <p>Key: {{notekey}}</p>
 {{#if notekey}}
   <hr />
   <p><a href="/notes/destroy?key={{notekey}}">Delete</a>
     |
     <a href="/notes/edit?key={{notekey}}">Edit</a></p>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascripts/noteView.js"></script>
 {{/if}}
