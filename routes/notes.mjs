@@ -1,10 +1,20 @@
 // const util = require('util');
 import { default as express } from "express";
+import DBG from "debug";
 
 import { NotesStore as notes } from "../models/notes-store.mjs";
 import { ensureAuthenticated } from "./users.mjs";
 import { emitNoteTitles } from "./index.mjs";
 import { io } from "../app.mjs";
+import {
+  postMessage,
+  destroyMessage,
+  recentMessages,
+  emitter as msgEvents,
+} from "../models/messages-sequelize.mjs";
+
+const debug = DBG("notes:home");
+const error = DBG("notes:error-home");
 
 export const router = express.Router();
 
@@ -100,8 +110,33 @@ router.post("/destroy/confirm", ensureAuthenticated, async (req, res, next) => {
 
 export function init() {
   io.of("/notes").on("connect", (socket) => {
-    if (socket.handshake.query.key) {
-      socket.join(socket.handshake.query.key);
+    const notekey = socket.handshake.query.key;
+
+    if (notekey) {
+      socket.join(notekey);
+
+      socket.on("create-message", async (newmsg, fn) => {
+        try {
+          await postMessage(
+            newmsg.from,
+            newmsg.namespace,
+            newmsg.room,
+            newmsg.message
+          );
+
+          fn("ok");
+        } catch (err) {
+          error(`FAIL to create message ${err.stack}`);
+        }
+      });
+
+      socket.on("delete-message", async (data) => {
+        try {
+          await destroyMessage(data.id);
+        } catch (err) {
+          error(`FAIL to delete message ${err.stack}`);
+        }
+      });
     }
   });
 
@@ -121,5 +156,13 @@ export function init() {
     io.of("/notes").to(key).emit("notedestroyed", key);
 
     emitNoteTitles();
+  });
+
+  msgEvents.on("newmessage", (newmsg) => {
+    io.of(newmsg.namespace).to(newmsg.room).emit("newmessage", newmsg);
+  });
+
+  msgEvents.on("destroymessage", (data) => {
+    io.of(data.namespace).to(data.room).emit("destroymessage", data);
   });
 }
