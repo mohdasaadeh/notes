@@ -60,7 +60,7 @@ const __dirname = approotdir;
 
 const app = express();
 
-const port = normalizePort(process.env.PORT || "3000");
+export const port = normalizePort(process.env.PORT || "3000");
 
 app.set("port", port);
 
@@ -124,6 +124,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  "/assets/vendor/bootstrap",
+  express.static(path.join(__dirname, "node_modules", "bootstrap", "dist"))
+);
+app.use(
+  "/assets/vendor/jquery",
+  express.static(path.join(__dirname, "node_modules", "jquery", "dist"))
+);
+app.use(
+  "/assets/vendor/popper.js",
+  express.static(
+    path.join(__dirname, "node_modules", "popper.js", "dist", "umd")
+  )
+);
+app.use(
+  "/assets/vendor/feather-icons",
+  express.static(path.join(__dirname, "node_modules", "feather-icons", "dist"))
+);
 
 app.use("/", indexRouter);
 app.use("/notes", notesRouter);

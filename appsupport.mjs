@@ -1,6 +1,6 @@
 import * as util from "util";
 
-import { server } from "./app.mjs";
+import { server, port } from "./app.mjs";
 import { NotesStore } from "./models/notes-store.mjs";
 
 export function normalizePort(val) {
