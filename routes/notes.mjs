@@ -54,13 +54,15 @@ router.post("/save", ensureAuthenticated, async (req, res, next) => {
 
 router.get("/view", async (req, res, next) => {
   try {
-    let note = await notes.read(req.query.key);
+    const note = await notes.read(req.query.key);
+    const messages = await recentMessages("/notes", req.query.key);
 
     res.render("noteview", {
       title: note ? note.title : "",
       notekey: req.query.key,
       user: req.user ? req.user : undefined,
       note: note,
+      messages,
     });
   } catch (err) {
     next(err);
