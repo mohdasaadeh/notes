@@ -1,6 +1,6 @@
 dbname: notes
 username: notes
-password: notes12345
+password: notes
 params:
   host: db-notes
   port: 3306
