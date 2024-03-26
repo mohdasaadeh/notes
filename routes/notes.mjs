@@ -112,6 +112,8 @@ router.post("/destroy/confirm", ensureAuthenticated, async (req, res, next) => {
 
 export function init() {
   io.of("/notes").on("connect", (socket) => {
+    console.log("socket connection on /notes");
+
     const notekey = socket.handshake.query.key;
 
     if (notekey) {
@@ -140,24 +142,26 @@ export function init() {
         }
       });
     }
-  });
 
-  notes.on("noteupdated", (note) => {
-    const toemit = {
-      key: note.key,
-      title: note.title,
-      body: note.body,
-    };
+    notes.on("noteupdated", (note) => {
+      const toemit = {
+        key: note.key,
+        title: note.title,
+        body: note.body,
+      };
 
-    io.of("/notes").to(note.key).emit("noteupdated", toemit);
+      console.log(note, toemit);
 
-    emitNoteTitles();
-  });
+      socket.to(note.key).emit("noteupdated", toemit);
 
-  notes.on("notedestroyed", (key) => {
-    io.of("/notes").to(key).emit("notedestroyed", key);
+      emitNoteTitles();
+    });
 
-    emitNoteTitles();
+    notes.on("notedestroyed", (key) => {
+      socket.to(key).emit("notedestroyed", key);
+
+      emitNoteTitles();
+    });
   });
 
   msgEvents.on("newmessage", (newmsg) => {

@@ -18,9 +18,11 @@
     "docker-build": "docker build -t svc-notes ."
   },
   "dependencies": {
+    "@socket.io/redis-adapter": "^8.3.0",
     "bcrypt": "^5.1.1",
     "bootstrap": "4.5.x",
     "capture-console": "^1.0.2",
+    "connect-redis": "^7.1.1",
     "cookie-parser": "~1.4.4",
     "cross-env": "^7.0.3",
     "debug": "~2.6.9",
@@ -30,6 +32,7 @@
     "fs-extra": "^11.2.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "ioredis": "^5.3.2",
     "jquery": "3.5.x",
     "js-yaml": "3.13.x",
     "level": "^6.0.1",
@@ -42,7 +45,7 @@
     "rotating-file-stream": "^3.2.1",
     "sequelize": "^6.37.1",
     "session-file-store": "1.4.x",
-    "socket.io": "^2.5.0",
+    "socket.io": "^4.7.5",
     "sqlite3": "^5.1.7",
     "superagent": "5.2.x"
   }

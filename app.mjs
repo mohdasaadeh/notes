@@ -1,7 +1,6 @@
 import { default as express } from "express";
 import { default as hbs } from "hbs";
 import * as path from "path";
-// import * as favicon from 'serve-favicon';
 import { default as logger } from "morgan";
 import { default as cookieParser } from "cookie-parser";
 import * as http from "http";
@@ -9,8 +8,11 @@ import { default as rfs } from "rotating-file-stream";
 import capcon from "capture-console";
 import session from "express-session";
 import sessionFileStore from "session-file-store";
-import socketio from "socket.io";
+import { Server } from "socket.io";
 import passportSocketIo from "passport.socketio";
+import RedisStore from "connect-redis";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { Redis } from "ioredis";
 
 import {
   normalizePort,
@@ -26,11 +28,24 @@ import { router as usersRouter, initPassport } from "./routes/users.mjs";
 import { approotdir } from "./approotdir.mjs";
 import { useModel as useNotesModel } from "./models/notes-store.mjs";
 
-const FileStore = sessionFileStore(session);
-
 export const sessionCookieName = "notescookie.sid";
 const sessionSecret = "keyboard mouse";
-const sessionStore = new FileStore({ path: "sessions" });
+
+let sessionStore;
+let redisClient;
+
+if (
+  typeof process.env.REDIS_ENDPOINT !== "undefined" &&
+  process.env.REDIS_ENDPOINT !== ""
+) {
+  redisClient = new Redis({ host: process.env.REDIS_ENDPOINT });
+
+  sessionStore = new RedisStore({ client: redisClient, prefix: "notey:" });
+} else {
+  const FileStore = sessionFileStore(session);
+
+  sessionStore = new FileStore({ path: "sessions" });
+}
 
 capcon.startCapture(process.stderr, async (stderr) => {
   const stream = rfs.createStream(
@@ -70,7 +85,20 @@ server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 
-export const io = socketio(server);
+let adapter;
+
+if (
+  typeof process.env.REDIS_ENDPOINT !== "undefined" &&
+  process.env.REDIS_ENDPOINT !== ""
+) {
+  const subClient = redisClient.duplicate();
+
+  adapter = createAdapter(redisClient, subClient);
+}
+
+export const io = new Server(server);
+
+io.adapter(adapter);
 
 io.use(
   passportSocketIo.authorize({

@@ -83,16 +83,25 @@
   query: { key: '{{ notekey }}' }
   });
 
+  socket.on("connect", (socket) => {
+    console.log('socket connection on /notes/' + '{{notekey}}');
+  })
+
   socket.on('noteupdated', note => {
-  $('h3#notetitle').empty();
-  $('h3#notetitle').text(note.title);
-  $('#navbartitle').empty();
-  $('#navbartitle').text(note.title);
-  $('#notebody').empty();
-  $('#notebody').text(note.body);
+    console.log("noteupdated");
+
+    $('title').empty();
+    $('title').text(note.title);
+    $('#note-title').empty();
+    $('#note-title').text(note.title);
+    $('#note-body').empty();
+    $('#note-body').text(note.body);
   });
 
-  socket.on('notedestroyed', key => {$(document).ready(() => { 
+  socket.on('notedestroyed', key => {
+    console.log("notedestroyed");
+
+    $(document).ready(() => { 
       console.log('{{notkey}}');
     })
 

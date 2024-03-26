@@ -1,7 +1,7 @@
 <ul id="notetitles">
   {{#each notelist}}
-    <li>{{key}}:
-      <a href="/notes/view?key={{key}}">{{title}}</a>
+    <li>
+      <a href="/notes/view?key={{key}}" class="btn btn-lg btn-block btn-outline-dark">{{title}}</a>
     </li>
   {{/each}}
 </ul>

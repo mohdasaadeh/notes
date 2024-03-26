@@ -39,7 +39,7 @@ export const emitNoteTitles = async () => {
 
 export function init() {
   io.of("/home").on("connect", (socket) => {
-    console.log("socketio connection on /home");
+    console.log("socket connection on /home");
   });
 
   notes.on("notecreated", emitNoteTitles);
