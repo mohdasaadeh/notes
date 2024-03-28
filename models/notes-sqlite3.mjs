@@ -6,13 +6,16 @@ import sqlite3DB from "sqlite3";
 
 const sqlite3 = sqlite3DB.verbose();
 
-let db = new sqlite3.Database("notes.sqlite", (err) => {
-  if (!err) {
-    console.log("The database has been connected successfully");
-  } else {
-    console.log(err);
+let db = new sqlite3.Database(
+  process.env.SQLITE_FILE || "notes.sqlite",
+  (err) => {
+    if (!err) {
+      console.log("The database has been connected successfully");
+    } else {
+      console.log(err);
+    }
   }
-});
+);
 
 const debug = DBG("notes:notes-sqlite3");
 const error = DBG("notes:error-sqlite3");
