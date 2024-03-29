@@ -76,9 +76,9 @@ export default class SQLITE3NotesStore extends AbstractNotesStore {
   async read(key) {
     const note = await new Promise((resolve, reject) => {
       db.get("SELECT * FROM notes WHERE notekey = ?", [key], (err, row) => {
-        if (!row) return reject(err);
-
-        if (row) {
+        if (!row) {
+          reject(new Error(`No note found for ${key}`));
+        } else {
           const note = new Note(row.notekey, row.title, row.body);
 
           resolve(note);
